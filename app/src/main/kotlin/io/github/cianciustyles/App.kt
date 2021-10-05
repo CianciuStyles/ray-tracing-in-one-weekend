@@ -21,15 +21,13 @@ fun main() {
             System.err.println("Scanlines remaining: $j")
 
             for (i in 0 until imageWidth) {
-                val r = i.toDouble() / (imageWidth - 1)
-                val g = j.toDouble() / (imageHeight - 1)
-                val b = 0.25
+                val pixelColor = Color(
+                    i.toDouble() / (imageWidth - 1),
+                    j.toDouble() / (imageHeight - 1),
+                    0.25
+                )
 
-                val ir = (r * 255.999).toInt()
-                val ig = (g * 255.999).toInt()
-                val ib = (b * 255.999).toInt()
-
-                image.write("$ir $ig $ib\n")
+                image.write("$pixelColor\n")
             }
         }
     }
