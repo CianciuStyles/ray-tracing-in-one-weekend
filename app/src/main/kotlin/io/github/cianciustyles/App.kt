@@ -7,8 +7,19 @@ import java.io.File
 
 fun main() {
     // Image
-    val imageWidth = 256
-    val imageHeight = 256
+    val aspectRatio = 16.0 / 9.0
+    val imageWidth = 400
+    val imageHeight = (imageWidth / aspectRatio).toInt()
+
+    // Camera
+    val viewportHeight = 2.0
+    val viewportWidth = aspectRatio * viewportHeight
+    val focalLength = 1.0
+
+    val origin = Point3()
+    val horizontal = Vector3(viewportWidth, 0.0, 0.0)
+    val vertical = Vector3(0.0, viewportHeight, 0.0)
+    val lowerLeftCorner = origin - horizontal / 2 - vertical / 2 - Vector3(0.0, 0.0, focalLength)
 
     // Render
     File("image.ppm").bufferedWriter().use { image ->
@@ -21,11 +32,10 @@ fun main() {
             System.err.println("Scanlines remaining: $j")
 
             for (i in 0 until imageWidth) {
-                val pixelColor = Color(
-                    i.toDouble() / (imageWidth - 1),
-                    j.toDouble() / (imageHeight - 1),
-                    0.25
-                )
+                val u = i.toDouble() / (imageWidth - 1)
+                val v = j.toDouble() / (imageHeight - 1)
+                val r = Ray(origin, lowerLeftCorner + horizontal * u + vertical * v - origin)
+                val pixelColor = r.rayColor()
 
                 image.write("$pixelColor\n")
             }

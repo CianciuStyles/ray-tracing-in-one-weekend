@@ -50,7 +50,18 @@ class Vector3Test {
     }
 
     @Test
-    fun testMultiply() {
+    fun testMinusVector() {
+        val vector1 = Vector3(1.0, 2.0, 3.0)
+        val vector2 = Vector3(4.0, 5.0, 6.0)
+        val result = vector1 - vector2
+
+        assertEquals(-3.0, result.x, Math.ulp(0.0))
+        assertEquals(-3.0, result.y, Math.ulp(0.0))
+        assertEquals(-3.0, result.z, Math.ulp(0.0))
+    }
+
+    @Test
+    fun testTimesInt() {
         val vector = Vector3(1.0, 2.0, 3.0)
         val result = vector * 3
 
@@ -60,9 +71,29 @@ class Vector3Test {
     }
 
     @Test
-    fun testDivide() {
+    fun testTimesDouble() {
+        val vector = Vector3(1.0, 2.0, 3.0)
+        val result = vector * 3.0
+
+        assertEquals(3.0, result.x, Math.ulp(0.0))
+        assertEquals(6.0, result.y, Math.ulp(0.0))
+        assertEquals(9.0, result.z, Math.ulp(0.0))
+    }
+
+    @Test
+    fun testDivideInt() {
         val vector = Vector3(3.0, 6.0, 9.0)
         val result = vector / 3
+
+        assertEquals(1.0, result.x, Math.ulp(0.0))
+        assertEquals(2.0, result.y, Math.ulp(0.0))
+        assertEquals(3.0, result.z, Math.ulp(0.0))
+    }
+
+    @Test
+    fun testDivideDouble() {
+        val vector = Vector3(3.0, 6.0, 9.0)
+        val result = vector / 3.0
 
         assertEquals(1.0, result.x, Math.ulp(0.0))
         assertEquals(2.0, result.y, Math.ulp(0.0))
