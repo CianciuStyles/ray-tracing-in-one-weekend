@@ -120,9 +120,7 @@ class Vector3Test {
         val vector2 = Vector3(4.0, 5.0, 6.0)
         val result = vector1 dot vector2
 
-        assertEquals(4.0, result.x, Math.ulp(0.0))
-        assertEquals(10.0, result.y, Math.ulp(0.0))
-        assertEquals(18.0, result.z, Math.ulp(0.0))
+        assertEquals(32.0, result, Math.ulp(32.0))
     }
 
     @Test
