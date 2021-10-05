@@ -38,12 +38,8 @@ class Vector3(
     override fun toString(): String =
         "$x $y $z"
 
-    infix fun dot(other: Vector3): Vector3 =
-        Vector3(
-            x * other.x,
-            y * other.y,
-            z * other.z
-        )
+    infix fun dot(other: Vector3): Double =
+        x * other.x + y * other.y + z * other.z
 
     infix fun cross(other: Vector3): Vector3 =
         Vector3(
