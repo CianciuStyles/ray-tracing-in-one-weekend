@@ -2,10 +2,10 @@ package io.github.cianciustyles
 
 import kotlin.math.sqrt
 
-open class Vector3(
-    open val x: Double = 0.0,
-    open val y: Double = 0.0,
-    open val z: Double = 0.0
+class Vector3(
+    val x: Double = 0.0,
+    val y: Double = 0.0,
+    val z: Double = 0.0
 ) {
     operator fun unaryMinus(): Vector3 =
         Vector3(-x, -y, -z)
@@ -16,6 +16,9 @@ open class Vector3(
             y + other.y,
             z + other.z
         )
+
+    operator fun minus(other: Vector3): Vector3 =
+        plus(-other)
 
     operator fun times(i: Int): Vector3 =
         Vector3(x * i, y * i, z * i)
