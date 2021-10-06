@@ -4,12 +4,14 @@
 package io.github.cianciustyles
 
 import java.io.File
+import kotlin.random.Random
 
 fun main() {
     // Image
     val aspectRatio = 16.0 / 9.0
     val imageWidth = 400
     val imageHeight = (imageWidth / aspectRatio).toInt()
+    val samplesPerPixel = 100
 
     // World
     val world = HittableList()
@@ -17,14 +19,7 @@ fun main() {
     world.add(Sphere(Point3(0.0, -100.5, -1.0), 100.0))
 
     // Camera
-    val viewportHeight = 2.0
-    val viewportWidth = aspectRatio * viewportHeight
-    val focalLength = 1.0
-
-    val origin = Point3()
-    val horizontal = Vector3(viewportWidth, 0.0, 0.0)
-    val vertical = Vector3(0.0, viewportHeight, 0.0)
-    val lowerLeftCorner = origin - horizontal / 2 - vertical / 2 - Vector3(0.0, 0.0, focalLength)
+    val camera = Camera()
 
     // Render
     File("image.ppm").bufferedWriter().use { image ->
@@ -37,12 +32,16 @@ fun main() {
             System.err.println("Scanlines remaining: $j")
 
             for (i in 0 until imageWidth) {
-                val u = i.toDouble() / (imageWidth - 1)
-                val v = j.toDouble() / (imageHeight - 1)
-                val r = Ray(origin, lowerLeftCorner + horizontal * u + vertical * v - origin)
-                val pixelColor = r.rayColor(world)
+                var pixelColor = Color(0.0, 0.0, 0.0)
 
-                image.write("$pixelColor\n")
+                for (s in 0 until samplesPerPixel) {
+                    val u = (i + Random.nextDouble()) / (imageWidth - 1)
+                    val v = (j + Random.nextDouble()) / (imageHeight - 1)
+                    val r = camera.getRay(u, v)
+                    pixelColor += r.rayColor(world)
+                }
+
+                image.write("${pixelColor.writeColor(samplesPerPixel)}\n")
             }
         }
     }
