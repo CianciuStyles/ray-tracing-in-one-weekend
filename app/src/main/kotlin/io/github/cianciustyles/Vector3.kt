@@ -2,7 +2,7 @@ package io.github.cianciustyles
 
 import kotlin.math.sqrt
 
-class Vector3(
+data class Vector3(
     val x: Double = 0.0,
     val y: Double = 0.0,
     val z: Double = 0.0
@@ -33,7 +33,10 @@ class Vector3(
         Vector3(x / i, y / i, z / i)
 
     fun length(): Double =
-        sqrt(x * x + y * y + z * z)
+        sqrt(lengthSquared())
+
+    fun lengthSquared(): Double =
+        x * x + y * y + z * z
 
     override fun toString(): String =
         "$x $y $z"
