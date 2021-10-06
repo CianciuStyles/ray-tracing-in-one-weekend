@@ -11,6 +11,11 @@ fun main() {
     val imageWidth = 400
     val imageHeight = (imageWidth / aspectRatio).toInt()
 
+    // World
+    val world = HittableList()
+    world.add(Sphere(Point3(0.0, 0.0, -1.0), 0.5))
+    world.add(Sphere(Point3(0.0, -100.5, -1.0), 100.0))
+
     // Camera
     val viewportHeight = 2.0
     val viewportWidth = aspectRatio * viewportHeight
@@ -35,7 +40,7 @@ fun main() {
                 val u = i.toDouble() / (imageWidth - 1)
                 val v = j.toDouble() / (imageHeight - 1)
                 val r = Ray(origin, lowerLeftCorner + horizontal * u + vertical * v - origin)
-                val pixelColor = r.rayColor()
+                val pixelColor = r.rayColor(world)
 
                 image.write("$pixelColor\n")
             }
