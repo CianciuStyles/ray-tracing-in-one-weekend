@@ -1,5 +1,7 @@
 package io.github.cianciustyles
 
+import kotlin.math.sqrt
+
 data class Color(
     val r: Double,
     val g: Double,
@@ -27,9 +29,9 @@ data class Color(
 
     fun writeColor(samplesPerPixel: Int): String {
         val scale = 1.0 / samplesPerPixel
-        val r = (256 * clamp(r * scale)).toInt()
-        val g = (256 * clamp(g * scale)).toInt()
-        val b = (256 * clamp(b * scale)).toInt()
+        val r = (256 * clamp(sqrt(r * scale))).toInt()
+        val g = (256 * clamp(sqrt(g * scale))).toInt()
+        val b = (256 * clamp(sqrt(b * scale))).toInt()
 
         return "$r $g $b"
     }

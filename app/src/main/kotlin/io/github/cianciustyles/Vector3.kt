@@ -1,6 +1,7 @@
 package io.github.cianciustyles
 
 import kotlin.math.sqrt
+import kotlin.random.Random
 
 data class Vector3(
     val x: Double = 0.0,
@@ -53,5 +54,32 @@ data class Vector3(
 
     fun unit(): Vector3 {
         return this / this.length()
+    }
+
+    companion object {
+        fun random(): Vector3 =
+            Vector3(
+                Random.nextDouble(),
+                Random.nextDouble(),
+                Random.nextDouble()
+            )
+
+        fun random(min: Double, max: Double) =
+            Vector3(
+                Random.nextDouble(min, max),
+                Random.nextDouble(min, max),
+                Random.nextDouble(min, max)
+            )
+
+        fun randomInUnitSphere(): Vector3 {
+            while (true) {
+                val vector = random(-1.0, 1.0)
+                if (vector.lengthSquared() >= 1) continue
+                return vector
+            }
+        }
+
+        fun randomUnitVector() =
+            randomInUnitSphere().unit()
     }
 }

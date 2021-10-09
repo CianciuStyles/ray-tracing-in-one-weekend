@@ -144,4 +144,60 @@ class Vector3Test {
         assertEquals(2.0 / length, unitVector.y, Math.ulp(0.0))
         assertEquals(3.0 / length, unitVector.z, Math.ulp(0.0))
     }
+    
+    @Test
+    fun testRandom() {
+        val vector1 = Vector3.random()
+        val vector2 = Vector3.random()
+
+        assertNotEquals(vector1, vector2)
+        assertTrue(0.0 <= vector1.x && vector1.x < 1.0)
+        assertTrue(0.0 <= vector1.y && vector1.y < 1.0)
+        assertTrue(0.0 <= vector1.z && vector1.z < 1.0)
+        assertTrue(0.0 <= vector2.x && vector2.x < 1.0)
+        assertTrue(0.0 <= vector2.y && vector2.y < 1.0)
+        assertTrue(0.0 <= vector2.z && vector2.z < 1.0)
+    }
+
+    @Test
+    fun testRandomMinMax() {
+        val vector1 = Vector3.random(2.0, 3.0)
+        val vector2 = Vector3.random(2.0, 4.0)
+
+        assertNotEquals(vector1, vector2)
+        assertTrue(2.0 <= vector1.x && vector1.x < 3.0)
+        assertTrue(2.0 <= vector1.y && vector1.y < 3.0)
+        assertTrue(2.0 <= vector1.z && vector1.z < 3.0)
+        assertTrue(2.0 <= vector2.x && vector2.x < 4.0)
+        assertTrue(2.0 <= vector2.y && vector2.y < 4.0)
+        assertTrue(2.0 <= vector2.z && vector2.z < 4.0)
+    }
+
+    @Test
+    fun testRandomInUnitSphere() {
+        val vector1 = Vector3.randomInUnitSphere()
+        val vector2 = Vector3.randomInUnitSphere()
+
+        assertNotEquals(vector1, vector2)
+        assertTrue(-1.0 <= vector1.x && vector1.x < 1.0)
+        assertTrue(-1.0 <= vector1.y && vector1.y < 1.0)
+        assertTrue(-1.0 <= vector1.z && vector1.z < 1.0)
+        assertTrue(-1.0 <= vector2.x && vector2.x < 1.0)
+        assertTrue(-1.0 <= vector2.y && vector2.y < 1.0)
+        assertTrue(-1.0 <= vector2.z && vector2.z < 1.0)
+    }
+
+    @Test
+    fun testRandomUnitVector() {
+        val vector1 = Vector3.randomUnitVector()
+        val vector2 = Vector3.randomUnitVector()
+
+        assertNotEquals(vector1, vector2)
+        assertTrue(-1.0 <= vector1.x && vector1.x < 1.0)
+        assertTrue(-1.0 <= vector1.y && vector1.y < 1.0)
+        assertTrue(-1.0 <= vector1.z && vector1.z < 1.0)
+        assertTrue(-1.0 <= vector2.x && vector2.x < 1.0)
+        assertTrue(-1.0 <= vector2.y && vector2.y < 1.0)
+        assertTrue(-1.0 <= vector2.z && vector2.z < 1.0)
+    }
 }
