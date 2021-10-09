@@ -225,4 +225,15 @@ class Vector3Test {
         assertEquals(-1.0, reflected.y, Math.ulp(-1.0))
         assertEquals(0.0, reflected.z, Math.ulp(0.0))
     }
+
+    @Test
+    fun testRefract() {
+        val vector = Vector3(1.0, 1.0, 0.0)
+        val normal = Vector3(0.0, -1.0, 0.0)
+        val refracted = vector.refract(normal, 1.0)
+
+        assertEquals(1.0, refracted.x, Math.ulp(0.0))
+        assertEquals(0.0, refracted.y, Math.ulp(0.0))
+        assertEquals(0.0, refracted.z, Math.ulp(0.0))
+    }
 }
