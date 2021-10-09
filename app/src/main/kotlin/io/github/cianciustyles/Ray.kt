@@ -10,10 +10,15 @@ class Ray(
     fun at(t: Double): Point3 =
         origin + direction * t
 
-    fun rayColor(world: Hittable): Color {
-        val hitRecord = world.hit(this, 0.0, Double.POSITIVE_INFINITY)
+    fun rayColor(world: Hittable, depth: Int): Color {
+        // If we've exceeded the ray bounce limit, no more light is gathered.
+        if (depth <= 0) return Color(0.0, 0.0, 0.0)
+
+        val hitRecord = world.hit(this, 0.001, Double.POSITIVE_INFINITY)
         if (hitRecord != null) {
-            return Color(hitRecord.normal.x + 1, hitRecord.normal.y + 1, hitRecord.normal.z + 1) * 0.5
+            val target = hitRecord.point + hitRecord.normal + Vector3.randomUnitVector()
+            val newRay = Ray(hitRecord.point, target - hitRecord.point)
+            return newRay.rayColor(world, depth - 1) * 0.5
         }
 
         val unitDirection = direction.unit()

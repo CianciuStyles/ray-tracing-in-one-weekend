@@ -12,6 +12,7 @@ fun main() {
     val imageWidth = 400
     val imageHeight = (imageWidth / aspectRatio).toInt()
     val samplesPerPixel = 100
+    val maxDepth = 50
 
     // World
     val world = HittableList()
@@ -38,7 +39,7 @@ fun main() {
                     val u = (i + Random.nextDouble()) / (imageWidth - 1)
                     val v = (j + Random.nextDouble()) / (imageHeight - 1)
                     val r = camera.getRay(u, v)
-                    pixelColor += r.rayColor(world)
+                    pixelColor += r.rayColor(world, maxDepth)
                 }
 
                 image.write("${pixelColor.writeColor(samplesPerPixel)}\n")
