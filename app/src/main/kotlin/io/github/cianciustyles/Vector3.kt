@@ -1,5 +1,7 @@
 package io.github.cianciustyles
 
+import kotlin.math.abs
+import kotlin.math.min
 import kotlin.math.sqrt
 import kotlin.random.Random
 
@@ -63,6 +65,13 @@ data class Vector3(
 
     fun reflect(normal: Vector3) =
         this - normal * (this dot normal) * 2
+
+    fun refract(normal: Vector3, refractionRatio: Double): Vector3 {
+        val cosTheta = min(-this dot normal, 1.0)
+        val perpendicular = (this + normal * cosTheta) * refractionRatio
+        val parallel = normal * -sqrt(abs(1.0 - perpendicular.lengthSquared()))
+        return parallel + perpendicular
+    }
 
     companion object {
         fun random(): Vector3 =
