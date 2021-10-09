@@ -8,7 +8,8 @@ class SphereTest {
     fun testHitBeforeTmin() {
         val sphere = Sphere(
             Point3(0.0, 0.0, 1.0),
-            0.5
+            0.5,
+            Lambertian()
         )
         val ray = Ray(
             Point3(0.0, 0.0, -1.0),
@@ -22,7 +23,8 @@ class SphereTest {
     fun testHitBetweenTminAndTmax() {
         val sphere = Sphere(
             Point3(0.0, 0.0, 1.0),
-            0.5
+            0.5,
+            Lambertian()
         )
         val ray = Ray(
             Point3(0.0, 0.0, -1.0),
@@ -36,7 +38,8 @@ class SphereTest {
     fun testHitAfterTmax() {
         val sphere = Sphere(
             Point3(0.0, 0.0, 1.0),
-            0.5
+            0.5,
+            Lambertian()
         )
         val ray = Ray(
             Point3(0.0, 0.0, -1.0),
@@ -48,9 +51,11 @@ class SphereTest {
 
     @Test
     fun testHitRecordFrontFace() {
+        val material = Lambertian()
         val sphere = Sphere(
             Point3(0.0, 0.0, 1.0),
-            0.5
+            0.5,
+            material
         )
         val ray = Ray(
             Point3(0.0, 0.0, -1.0),
@@ -58,7 +63,7 @@ class SphereTest {
         )
 
         val outwardNormal = Vector3(0.0, 0.0, -1.0)
-        val hitRecord = sphere.hitRecord(ray, outwardNormal, 0.5)
+        val hitRecord = sphere.hitRecord(ray, outwardNormal, material, 0.5)
 
         assertEquals(outwardNormal, hitRecord.normal)
         assertTrue(hitRecord.frontFace)
@@ -66,9 +71,11 @@ class SphereTest {
 
     @Test
     fun testHitRecordBackFace() {
+        val material = Lambertian()
         val sphere = Sphere(
             Point3(0.0, 0.0, 1.0),
-            0.5
+            0.5,
+            material
         )
         val ray = Ray(
             Point3(0.0, 0.0, -1.0),
@@ -76,7 +83,7 @@ class SphereTest {
         )
 
         val outwardNormal = Vector3(0.0, 0.0, 1.0)
-        val hitRecord = sphere.hitRecord(ray, outwardNormal, 1.5)
+        val hitRecord = sphere.hitRecord(ray, outwardNormal, material, 1.5)
 
         assertEquals(-outwardNormal, hitRecord.normal)
         assertFalse(hitRecord.frontFace)

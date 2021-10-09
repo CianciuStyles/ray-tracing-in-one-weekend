@@ -36,9 +36,20 @@ class ColorTest {
     }
 
     @Test
+    fun testTimesColor() {
+        val color1 = Color(0.3, 0.5, 0.7)
+        val color2 = Color(0.7, 0.5, 0.3)
+        val result = color1 * color2
+
+        assertEquals(0.3 * 0.7, result.r, Math.ulp(0.3 * 0.7))
+        assertEquals(0.5 * 0.5, result.g, Math.ulp(0.5 * 0.5))
+        assertEquals(0.7 * 0.3, result.b, Math.ulp(0.7 * 0.3))
+    }
+
+    @Test
     fun testWriteColor() {
         val color = Color(0.25, 0.5, 1.0)
 
-        assertEquals("64 128 255", color.writeColor(1))
+        assertEquals("128 181 255", color.writeColor(1))
     }
 }

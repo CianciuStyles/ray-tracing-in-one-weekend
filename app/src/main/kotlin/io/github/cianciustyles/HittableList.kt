@@ -11,12 +11,12 @@ class HittableList(
         objects.clear()
     }
 
-    override fun hit(r: Ray, tMin: Double, tMax: Double): HitRecord? {
+    override fun hit(ray: Ray, tMin: Double, tMax: Double): HitRecord? {
         var hitRecord: HitRecord? = null
         var closestSoFar = tMax
 
         for (obj in objects) {
-            obj.hit(r, tMin, closestSoFar)?.let {
+            obj.hit(ray, tMin, closestSoFar)?.let {
                 closestSoFar = it.t
                 hitRecord = it
             }
