@@ -20,6 +20,13 @@ data class Color(
     operator fun times(i: Int): Color =
         Color(r * i, g * i, b * i)
 
+    operator fun times(color: Color) =
+        Color(
+            this.r * color.r,
+            this.g * color.g,
+            this.b * color.b
+        )
+
     private fun clamp(x: Double) =
         when {
             x < 0.0 -> 0.0
@@ -34,5 +41,11 @@ data class Color(
         val b = (256 * clamp(sqrt(b * scale))).toInt()
 
         return "$r $g $b"
+    }
+
+    companion object {
+        val BLACK = Color(0.0, 0.0, 0.0)
+        val BLUE = Color(0.5, 0.7, 1.0)
+        val WHITE = Color(1.0, 1.0, 1.0)
     }
 }

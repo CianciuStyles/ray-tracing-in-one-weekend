@@ -16,8 +16,16 @@ fun main() {
 
     // World
     val world = HittableList()
-    world.add(Sphere(Point3(0.0, 0.0, -1.0), 0.5))
-    world.add(Sphere(Point3(0.0, -100.5, -1.0), 100.0))
+
+    val materialGround = Lambertian(Color(0.8, 0.8, 0.0))
+    val materialCenter = Lambertian(Color(0.7, 0.3, 0.3))
+    val materialLeft = Metal(Color(0.8, 0.8, 0.8), 0.3)
+    val materialRight = Metal(Color(0.8, 0.6, 0.2), 1.0)
+
+    world.add(Sphere(Point3(0.0, -100.5, -1.0), 100.0, materialGround))
+    world.add(Sphere(Point3(0.0, 0.0, -1.0), 0.5, materialCenter))
+    world.add(Sphere(Point3(-1.0, 0.0, -1.0), 0.5, materialLeft))
+    world.add(Sphere(Point3(1.0, 0.0, -1.0), 0.5, materialRight))
 
     // Camera
     val camera = Camera()
@@ -33,13 +41,13 @@ fun main() {
             System.err.println("Scanlines remaining: $j")
 
             for (i in 0 until imageWidth) {
-                var pixelColor = Color(0.0, 0.0, 0.0)
+                var pixelColor = Color.BLACK
 
                 for (s in 0 until samplesPerPixel) {
                     val u = (i + Random.nextDouble()) / (imageWidth - 1)
                     val v = (j + Random.nextDouble()) / (imageHeight - 1)
-                    val r = camera.getRay(u, v)
-                    pixelColor += r.rayColor(world, maxDepth)
+                    val ray = camera.getRay(u, v)
+                    pixelColor += ray.rayColor(world, maxDepth)
                 }
 
                 image.write("${pixelColor.writeColor(samplesPerPixel)}\n")

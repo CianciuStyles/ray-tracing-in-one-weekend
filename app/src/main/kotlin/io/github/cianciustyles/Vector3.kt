@@ -56,6 +56,14 @@ data class Vector3(
         return this / this.length()
     }
 
+    fun nearZero(): Boolean {
+        val s = 1e-18
+        return x < s && y < s && z < s
+    }
+
+    fun reflect(normal: Vector3) =
+        this - normal * (this dot normal) * 2
+
     companion object {
         fun random(): Vector3 =
             Vector3(

@@ -200,4 +200,29 @@ class Vector3Test {
         assertTrue(-1.0 <= vector2.y && vector2.y < 1.0)
         assertTrue(-1.0 <= vector2.z && vector2.z < 1.0)
     }
+
+    @Test
+    fun testNearZeroTrue() {
+        val vector = Vector3(1e-20, 1e-20, 1e-20)
+
+        assertTrue(vector.nearZero())
+    }
+
+    @Test
+    fun testNearZeroFalse() {
+        val vector = Vector3(1e-15, 1e-15, 1e-15)
+
+        assertFalse(vector.nearZero())
+    }
+
+    @Test
+    fun testReflect() {
+        val vector = Vector3(1.0, 1.0, 0.0)
+        val normal = Vector3(0.0, -1.0, 0.0)
+        val reflected = vector.reflect(normal)
+
+        assertEquals(1.0, reflected.x, Math.ulp(1.0))
+        assertEquals(-1.0, reflected.y, Math.ulp(-1.0))
+        assertEquals(0.0, reflected.z, Math.ulp(0.0))
+    }
 }
