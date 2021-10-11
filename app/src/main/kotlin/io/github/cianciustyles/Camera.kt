@@ -1,21 +1,34 @@
 package io.github.cianciustyles
 
-class Camera {
-    private var origin: Point3
-    private var horizontal: Vector3
-    private var vertical: Vector3
-    private var lowerLeftCorner: Point3
+import kotlin.math.PI
+import kotlin.math.tan
+
+class Camera(
+    lookFrom: Point3,
+    lookAt: Point3,
+    vectorUp: Vector3,
+    verticalFieldOfView: Double,
+    aspectRatio: Double
+) {
+    private val origin: Point3
+    private val horizontal: Vector3
+    private val vertical: Vector3
+    private val lowerLeftCorner: Point3
 
     init {
-        val aspectRatio = 16.0 / 9.0
-        val viewportHeight = 2.0
+        val theta = degreesToRadians(verticalFieldOfView)
+        val h = tan(theta / 2)
+        val viewportHeight = 2.0 * h
         val viewportWidth = aspectRatio * viewportHeight
-        val focalLength = 1.0
 
-        origin = Point3(0.0, 0.0, 0.0)
-        horizontal = Vector3(viewportWidth, 0.0, 0.0)
-        vertical = Vector3(0.0, viewportHeight, 0.0)
-        lowerLeftCorner = origin - horizontal / 2 - vertical / 2 - Vector3(0.0, 0.0, focalLength)
+        val w = (lookFrom - lookAt).unit()
+        val u = (vectorUp cross w).unit()
+        val v = w cross u
+
+        origin = lookFrom
+        horizontal = u * viewportWidth
+        vertical = v * viewportHeight
+        lowerLeftCorner = origin - horizontal / 2 - vertical / 2 - w
     }
 
     fun getRay(u: Double, v: Double) =
@@ -23,4 +36,7 @@ class Camera {
             origin,
             lowerLeftCorner + horizontal * u + vertical * v - origin
         )
+
+    private fun degreesToRadians(degrees: Double) =
+        degrees * PI / 180.0
 }

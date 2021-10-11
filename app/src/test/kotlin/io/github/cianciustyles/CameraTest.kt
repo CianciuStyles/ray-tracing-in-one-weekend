@@ -6,7 +6,13 @@ import org.junit.Test
 class CameraTest {
     @Test
     fun testGetRay() {
-        val camera = Camera()
+        val camera = Camera(
+            Point3(0.0, 0.0, 0.0),
+            Point3(0.0, 0.0, -1.0),
+            Vector3(0.0, 1.0, 0.0),
+            90.0,
+            16.0 / 9.0
+        )
 
         val ray = camera.getRay(0.5, 0.5)
 
