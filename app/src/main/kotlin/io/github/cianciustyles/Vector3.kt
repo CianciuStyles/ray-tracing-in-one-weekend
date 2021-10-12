@@ -98,5 +98,18 @@ data class Vector3(
 
         fun randomUnitVector() =
             randomInUnitSphere().unit()
+
+        fun randomInUnitDisk(): Vector3 {
+            while (true) {
+                val vector = Vector3(
+                    Random.nextDouble(-1.0, 1.0),
+                    Random.nextDouble(-1.0, 1.0),
+                    0.0
+                )
+
+                if (vector.lengthSquared() >= 1.0) continue
+                return vector
+            }
+        }
     }
 }

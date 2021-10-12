@@ -29,12 +29,21 @@ fun main() {
     world.add(Sphere(Point3( 1.0,    0.0, -1.0),   0.5, materialRight))
 
     // Camera
+    val lookFrom = Point3(3.0, 3.0, 2.0)
+    val lookAt = Point3(0.0, 0.0, -1.0)
+    val vectorUp = Vector3(0.0, 1.0, 0.0)
+    val verticalFieldOfView = 20.0
+    val aperture = 2.0
+    val distanceToFocus = (lookFrom - lookAt).length()
+
     val camera = Camera(
-        Point3(-2.0,2.0,1.0),
-        Point3(0.0,0.0,-1.0),
-        Vector3(0.0,1.0,0.0),
-        20.0,
-        aspectRatio
+        lookFrom,
+        lookAt,
+        vectorUp,
+        verticalFieldOfView,
+        aspectRatio,
+        aperture,
+        distanceToFocus
     )
 
     // Render
