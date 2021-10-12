@@ -202,6 +202,20 @@ class Vector3Test {
     }
 
     @Test
+    fun testRandomInUnitDisk() {
+        val vector1 = Vector3.randomInUnitDisk()
+        val vector2 = Vector3.randomInUnitDisk()
+
+        assertNotEquals(vector1, vector2)
+        assertTrue(-1.0 <= vector1.x && vector1.x < 1.0)
+        assertTrue(-1.0 <= vector1.y && vector1.y < 1.0)
+        assertEquals(0.0, vector1.z, Math.ulp(0.0))
+        assertTrue(-1.0 <= vector2.x && vector2.x < 1.0)
+        assertTrue(-1.0 <= vector2.y && vector2.y < 1.0)
+        assertEquals(0.0, vector2.z, Math.ulp(0.0))
+    }
+
+    @Test
     fun testNearZeroTrue() {
         val vector = Vector3(1e-20, 1e-20, 1e-20)
 
