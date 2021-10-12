@@ -1,6 +1,7 @@
 package io.github.cianciustyles
 
 import kotlin.math.sqrt
+import kotlin.random.Random
 
 data class Color(
     val r: Double,
@@ -44,6 +45,20 @@ data class Color(
     }
 
     companion object {
+        fun random() =
+            Color(
+                Random.nextDouble(),
+                Random.nextDouble(),
+                Random.nextDouble()
+            )
+
+        fun random(min: Double, max: Double) =
+            Color(
+                Random.nextDouble(min, max),
+                Random.nextDouble(min, max),
+                Random.nextDouble(min, max)
+            )
+
         val BLACK = Color(0.0, 0.0, 0.0)
         val BLUE = Color(0.5, 0.7, 1.0)
         val WHITE = Color(1.0, 1.0, 1.0)

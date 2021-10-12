@@ -6,35 +6,72 @@ package io.github.cianciustyles
 import java.io.File
 import kotlin.random.Random
 
+private fun randomScene(): HittableList {
+    val world = HittableList()
+
+    val groundMaterial = Lambertian(Color(0.5, 0.5, 0.5))
+    world.add(Sphere(Point3(0.0, -1000.0, 0.0), 1000.0, groundMaterial))
+
+    for (a in -11 until 11) {
+        for (b in -11 until 11) {
+            val chooseMaterial = Random.nextDouble()
+            val center = Point3(a + 0.9 * Random.nextDouble(), 0.2, b + 0.9 * Random.nextDouble())
+
+            if ((center - Point3(4.0, 0.2, 0.0)).length() > 0.9) {
+                when {
+                    chooseMaterial < 0.8 -> {
+                        // diffuse
+                        val albedo = Color.random() * Color.random()
+                        val sphereMaterial = Lambertian(albedo)
+                        world.add(Sphere(center, 0.2, sphereMaterial))
+                    }
+                    0.8 <= chooseMaterial && chooseMaterial < 0.95 -> {
+                        // metal
+                        val albedo = Color.random(0.5, 1.0)
+                        val fuzz = Random.nextDouble(0.0, 0.5)
+                        val sphereMaterial = Metal(albedo, fuzz)
+                        world.add(Sphere(center, 0.2, sphereMaterial))
+                    }
+                    else -> {
+                        // glass
+                        val sphereMaterial = Dielectric(1.5)
+                        world.add(Sphere(center, 0.2, sphereMaterial))
+                    }
+                }
+            }
+        }
+    }
+
+    val material1 = Dielectric(1.5)
+    world.add(Sphere(Point3(0.0, 1.0, 0.0), 1.0, material1))
+
+    val material2 = Lambertian(Color(0.4, 0.2, 0.1))
+    world.add(Sphere(Point3(-4.0, 1.0, 0.0), 1.0, material2))
+
+    val material3 = Metal(Color(0.7, 0.6, 0.5), 0.0)
+    world.add(Sphere(Point3(4.0, 1.0, 0.0), 1.0, material3))
+
+    return world
+}
+
 fun main() {
     // Image
-    val aspectRatio = 16.0 / 9.0
-    val imageWidth = 400
+    val aspectRatio = 3.0 / 2.0
+    val imageWidth = 1200
     val imageHeight = (imageWidth / aspectRatio).toInt()
-    val samplesPerPixel = 100
+    val samplesPerPixel = 500
     val maxDepth = 50
 
     // World
-    val world = HittableList()
-
-    val materialGround = Lambertian(Color(0.8, 0.8, 0.0))
-    val materialCenter = Lambertian(Color(0.1, 0.2, 0.5))
-    val materialLeft   = Dielectric(1.5)
-    val materialRight  = Metal(Color(0.8, 0.6, 0.2), 0.0)
-
-    world.add(Sphere(Point3( 0.0, -100.5, -1.0), 100.0, materialGround))
-    world.add(Sphere(Point3( 0.0,    0.0, -1.0),   0.5, materialCenter))
-    world.add(Sphere(Point3(-1.0,    0.0, -1.0),   0.5, materialLeft))
-    world.add(Sphere(Point3(-1.0,    0.0, -1.0), -0.45, materialLeft))
-    world.add(Sphere(Point3( 1.0,    0.0, -1.0),   0.5, materialRight))
+    val world = randomScene()
 
     // Camera
-    val lookFrom = Point3(3.0, 3.0, 2.0)
-    val lookAt = Point3(0.0, 0.0, -1.0)
+    val lookFrom = Point3(13.0, 2.0, 3.0)
+    val lookAt = Point3()
     val vectorUp = Vector3(0.0, 1.0, 0.0)
     val verticalFieldOfView = 20.0
-    val aperture = 2.0
-    val distanceToFocus = (lookFrom - lookAt).length()
+    val aperture = 0.1
+    val distanceToFocus = 10.0
 
     val camera = Camera(
         lookFrom,
