@@ -13,3 +13,7 @@ Cloning the repository:
 To run `ray-tracing-in-one-weekend`:
 
 1. Run `gradle app:run` in the terminal, then find the `image.ppm` output file in the `app` directory.
+
+### Final result
+
+![Final result](https://i.imgur.com/hvtAB8Kl.png)
