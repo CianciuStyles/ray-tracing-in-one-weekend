@@ -15,7 +15,7 @@ class HittableList(
         var hitRecord: HitRecord? = null
         var closestSoFar = tMax
 
-        for (obj in objects) {
+        objects.forEach { obj ->
             obj.hit(ray, tMin, closestSoFar)?.let {
                 closestSoFar = it.t
                 hitRecord = it
