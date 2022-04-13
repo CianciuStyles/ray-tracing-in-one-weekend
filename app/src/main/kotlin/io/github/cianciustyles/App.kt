@@ -4,6 +4,7 @@
 package io.github.cianciustyles
 
 import java.io.File
+import java.util.stream.IntStream
 import kotlin.random.Random
 
 private fun randomScene(): HittableList {
@@ -94,14 +95,15 @@ fun main() {
             System.err.println("Scanlines remaining: $j")
 
             for (i in 0 until imageWidth) {
-                var pixelColor = Color.BLACK
-
-                for (s in 0 until samplesPerPixel) {
-                    val u = (i + Random.nextDouble()) / (imageWidth - 1)
-                    val v = (j + Random.nextDouble()) / (imageHeight - 1)
-                    val ray = camera.getRay(u, v)
-                    pixelColor += ray.rayColor(world, maxDepth)
-                }
+                val pixelColor = IntStream.range(0, samplesPerPixel)
+                    .parallel()
+                    .mapToObj {
+                        val u = (i + Random.nextDouble()) / (imageWidth - 1)
+                        val v = (j + Random.nextDouble()) / (imageHeight - 1)
+                        val ray = camera.getRay(u, v)
+                        ray.rayColor(world, maxDepth)
+                    }
+                    .reduce(Color.BLACK, Color::plus)
 
                 image.write("${pixelColor.writeColor(samplesPerPixel)}\n")
             }
